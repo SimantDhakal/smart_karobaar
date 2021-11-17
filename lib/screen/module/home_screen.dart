@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:data_table_2/data_table_2.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +8,7 @@ import 'package:law_dairy/components/rounded_btn/rounded_btn.dart';
 import 'package:law_dairy/resources/AppColor.dart';
 import 'package:law_dairy/resources/api/route_manager.dart';
 import 'package:law_dairy/resources/api/view_storage.dart';
-
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'dashboard_screen.dart';
 import 'watch_list.dart';
 
@@ -20,12 +19,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColor.darkModeBg,
         body: Container(
-          padding: EdgeInsets.only(left: 12.0, right: 12.0),
+          padding: EdgeInsets.only(left: 7.0, right: 7.0),
           margin: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 20),
           child: Column(
             children: <Widget>[
@@ -36,84 +36,67 @@ class _HomeScreenState extends State<HomeScreen> {
               // index widget
               nepseIndexWidget(),
 
-              SizedBox(height: 20.0),
+              lineGraph(),
+
 
               // live data
-              Expanded(
-                child: Container(
-                  color: Colors.white,
-                  child: DataTable2(
-                      headingRowColor: MaterialStateProperty.all(Colors.grey[300]),
-                      columnSpacing: 12,
-                      horizontalMargin: 12,
-                      minWidth: 800,
-                      columns: [
-                        DataColumn(
-                          label: Text('Symbol'),
-                        ),
-                        DataColumn(
-                          label: Text('LTP'),
-                        ),
-                        DataColumn(
-                          label: Text('LTV'),
-                        ),
-                        DataColumn(
-                          label: Text('% Change'),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Text('Open Price'),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Text('High Price'),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Text('Low Price'),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Text('Total TQ'),
-                          numeric: true,
-                        ),
-                        DataColumn(
-                          label: Text('Last Updated'),
-                          numeric: true,
-                        ),
-                      ],
-                      rows: List<DataRow>.generate(
-                          30, (index) {
-                        if (index == 1 || index == 3 || index == 7 || index == 8 || index == 10 || index == 13 || index == 15 || index == 18 || index == 20 ||
-                            index == 22 || index == 23 || index == 24 || index == 26) {
-                          return DataRow(color: MaterialStateProperty.all(Colors.green), cells: [
-                            DataCell(Text('GAH')),
-                            DataCell(Text((15 - (index + 5) % 10).toStringAsFixed(2))),
-                            DataCell(Text((7 - (index + 5) % 14).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 15.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 1.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 9.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 18.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 6.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 11.4).toStringAsFixed(2))),
-                          ]);
-                        } else {
-                          return DataRow(color: MaterialStateProperty.all(Colors.redAccent), cells: [
-                            DataCell(Text('GAH')),
-                            DataCell(Text((15 - (index + 5) % 10).toStringAsFixed(2))),
-                            DataCell(Text((7 - (index + 5) % 14).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 15.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 1.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 9.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 18.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 6.4).toStringAsFixed(2))),
-                            DataCell(Text(((index + 0.1) * 11.4).toStringAsFixed(2))),
-                          ]);
-                        }
-                      }
-                      )),
-                ),
-              ),
+              // Expanded(
+              //   child: SingleChildScrollView(
+              //     child: Column(
+              //       children: <Widget>[
+              //         Padding(
+              //           padding: EdgeInsets.only(bottom: 10.0, top: 20.0),
+              //           child: Text("Top Gainer", style:
+              //           TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(228, 230, 232, 1))),
+              //         ),
+              //         Container(
+              //           padding: EdgeInsets.all(8.0),
+              //           decoration: BoxDecoration(
+              //             borderRadius: BorderRadius.circular(20.0),
+              //               color: Colors.blueGrey
+              //           ),
+              //           child: DataTable(
+              //               headingRowColor: MaterialStateProperty.all(Colors.blueGrey),
+              //               columns: [
+              //                 DataColumn(
+              //                   label: Text('SYM', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              //                 ),
+              //                 DataColumn(
+              //                   label: Text('Change', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              //                 ),
+              //                 DataColumn(
+              //                   label: Text('Ch%', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              //                 ),
+              //                 DataColumn(
+              //                   label: Text('LTP', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              //                   numeric: true,
+              //                 ),
+              //               ],
+              //               rows: List<DataRow>.generate(
+              //                   5, (index) {
+              //                 if (index == 1 || index == 3 || index == 7 || index == 8 || index == 10 || index == 13 || index == 15 || index == 18 || index == 20 ||
+              //                     index == 22 || index == 23 || index == 24 || index == 26) {
+              //                   return DataRow(color: MaterialStateProperty.all(Colors.white), cells: [
+              //                     DataCell(Text('Joshi', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                     DataCell(Text((15 - (index + 5) % 10).toStringAsFixed(2), style: TextStyle(color: Colors.green, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                     DataCell(Text((12 - (index + 5) % 14).toStringAsFixed(2)+"%", style: TextStyle(color: Colors.green, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                     DataCell(Text(((index + 0.1) * 15.4).toStringAsFixed(2), style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                   ]);
+              //                 } else {
+              //                   return DataRow(color: MaterialStateProperty.all(Colors.white), cells: [
+              //                     DataCell(Text('GAH', style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                     DataCell(Text((15 - (index + 5) % 10).toStringAsFixed(2), style: TextStyle(color: Colors.green, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                     DataCell(Text((12 - (index + 5) % 14).toStringAsFixed(2)+"%", style: TextStyle(color: Colors.green, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                     DataCell(Text(((index + 0.1) * 15.4).toStringAsFixed(2), style: TextStyle(color: Colors.black87, fontWeight: FontWeight.normal, fontSize: 15.0))),
+              //                   ]);
+              //                 }
+              //               }
+              //               )),
+              //         )
+              //       ],
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ));
@@ -153,13 +136,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget nepseIndexWidget() {
     return Container(
-      height: 300.0,
+      height: 240.0,
       child: Stack(
         children: <Widget>[
           // top stack
           Container(
             margin: EdgeInsets.only(left: 10.0, right: 10.0),
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.only(left: 10.0, top: 10.0, right: 10.0, bottom: 20.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20.0),
                 gradient: LinearGradient(
@@ -203,13 +186,13 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.all(15.0),
+                    padding: EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0, bottom: 12.0),
                     width: double.infinity,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text('Total Balance', style: TextStyle(color: Color.fromRGBO(193, 195, 199, 1), fontWeight: FontWeight.normal, fontSize: 16.0)),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.drive_file_rename_outline, color: Color.fromRGBO(193, 195, 199, 1)))
+                        // IconButton(onPressed: (){}, icon: Icon(Icons.drive_file_rename_outline, color: Color.fromRGBO(193, 195, 199, 1)))
                       ],
                     ),
                   ),
@@ -248,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: EdgeInsets.only(bottom: 7.0),
                                 child: Text('Total Turnover', style: TextStyle(fontSize: 13.0, color: Color.fromRGBO(193, 195, 199, 1))),
                               ),
-                              Text('4,734,651,443.84', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(193, 195, 199, 1))),
+                              Text('4,651,443.84', style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold, color: Color.fromRGBO(193, 195, 199, 1))),
                             ],
                           ),
                         )),
@@ -276,4 +259,11 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+
+  Widget lineGraph() {
+    return Container(
+
+    );
+  }
+
 }

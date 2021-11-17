@@ -54,7 +54,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
         ),
         bottomNavigationBar: BottomAppBar(
           elevation: 12,
-          color: AppColor.bottomNavigationDarkModebg,
+          color: Color.fromRGBO(51, 55, 62, 1),
           child: Container(
             height: 55,
             child: Row(
@@ -78,7 +78,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Icon(
                           Icons.receipt,
                           size: 25,
-                          color: currentTab == 0 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg,
+                          color: currentTab == 0 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
                         SizedBox(
                           height: 2.0,
@@ -86,7 +86,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Text(
                           'Report',
                           style: TextStyle(
-                            color: currentTab == 0 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
+                            color: currentTab == 0 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -110,7 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Icon(
                           Icons.home_work,
                           size: 25,
-                          color: currentTab == 1 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg,
+                          color: currentTab == 1 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
                         SizedBox(
                           height: 2.0,
@@ -118,7 +118,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Text(
                           'Company',
                           style: TextStyle(
-                            color: currentTab == 1 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
+                            color: currentTab == 1 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -145,7 +145,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Text(
                           'Dashboard',
                           style: TextStyle(
-                            color: currentTab == 2 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
+                            color: currentTab == 2 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -168,7 +168,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Icon(
                           Icons.library_books_sharp,
                           size: 25,
-                          color: currentTab == 3 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg,
+                          color: currentTab == 3 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
                         SizedBox(
                           height: 2.0,
@@ -176,7 +176,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Text(
                           'Training',
                           style: TextStyle(
-                            color: currentTab == 3 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
+                            color: currentTab == 3 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -200,7 +200,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Icon(
                           Icons.leaderboard,
                           size: 25,
-                          color: currentTab == 4 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg,
+                          color: currentTab == 4 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
                         SizedBox(
                           height: 2.0,
@@ -208,7 +208,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                         Text(
                           'Summarize',
                           style: TextStyle(
-                            color: currentTab == 4 ? Colors.redAccent : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
+                            color: currentTab == 4 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
                         ),
                       ],
@@ -221,7 +221,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
         ),
 
         floatingActionButton:FloatingActionButton(
-          backgroundColor: Colors.redAccent,
+          backgroundColor: Color.fromRGBO(46, 128, 98, 1),
           elevation: 2,
           onPressed: (){
             // setState(() {
