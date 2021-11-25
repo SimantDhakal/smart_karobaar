@@ -1,25 +1,19 @@
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:law_dairy/components/rounded_btn/rounded_btn.dart';
 import 'package:law_dairy/resources/AppColor.dart';
 import 'package:law_dairy/resources/api/route_manager.dart';
-import 'package:law_dairy/resources/api/view_storage.dart';
-import 'package:law_dairy/screen/init/register.dart';
 import 'package:law_dairy/screen/module/dashboard_screen.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class Login extends StatefulWidget {
+class VerificationScreen extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _VerificationScreenState createState() => _VerificationScreenState();
 }
 
-class _LoginState extends State<Login> {
-
+class _VerificationScreenState extends State<VerificationScreen> {
   TextEditingController _phoneController = new TextEditingController(text: "9861169270");
   TextEditingController _passwordController = new TextEditingController(text: "password");
 
@@ -96,11 +90,12 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         Container(
+                          padding: EdgeInsets.only(left: 5.0, right: 5.0),
                           child: Column(
                             children: <Widget>[
                               SizedBox(height: 20.0),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                 child: Container(
                                   margin: EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
@@ -146,7 +141,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -189,15 +184,6 @@ class _LoginState extends State<Login> {
                                   ],
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: InkWell(
-                                  onTap: () {
-
-                                  },
-                                  child: Text("Forget Password?", style: TextStyle(color: Color.fromRGBO(64, 178, 135, 1), fontSize: 15.0)),
-                                ),
-                              ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
@@ -220,21 +206,6 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
 
-                              // Container(
-                              //   height: 50.0,
-                              //   width: double.infinity,
-                              //   child: OutlineButton(
-                              //     padding: EdgeInsets.all(7.0),
-                              //     shape: StadiumBorder(),
-                              //     textColor: Colors.grey[200],
-                              //     child: Text('CREATE ACCOUNT', style: TextStyle(fontSize: 17.0)),
-                              //     borderSide: BorderSide(
-                              //         color: Color.fromRGBO(64, 178, 135, 1), style: BorderStyle.solid,
-                              //         width: 1),
-                              //     onPressed: () {},
-                              //   ),
-                              // ),
-
                               SizedBox(
                                 height: 10,
                               ),
@@ -253,7 +224,7 @@ class _LoginState extends State<Login> {
                               SizedBox(width: 10.0),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
                                 },
                                 child: Text("Sign Up", style: TextStyle(color: Color.fromRGBO(64, 178, 135, 1), fontSize: 17.0, fontWeight: FontWeight.normal)),
                               ),
@@ -294,8 +265,6 @@ class _LoginState extends State<Login> {
     final responseData = response.data;
 
     log(responseData.toString());
-    ViewStorage.logInfo.add(responseData);
-    print(ViewStorage.logInfo[0].toString());
 
     if (response.statusCode == 200) {
       setState(() {showSpinner = false;});

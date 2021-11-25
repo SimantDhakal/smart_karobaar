@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:law_dairy/components/sidebar/side_menu.dart';
 import 'package:law_dairy/resources/AppColor.dart';
 import 'package:law_dairy/screen/module/company_screen.dart';
 import 'package:law_dairy/screen/module/summarize_data_screen.dart';
@@ -7,6 +8,7 @@ import 'package:law_dairy/screen/module/training_screen.dart';
 import 'package:law_dairy/screen/module/watch_list.dart';
 
 import 'home_screen.dart';
+import 'live_screen.dart';
 import 'report_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -21,6 +23,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
   // navigation drawer
   AnimationController controller;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   int currentTab = 2;
 
   @override
@@ -31,11 +34,11 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
   }
 
   final List<Widget> screens = [
-    ReportScreen(),
+    LiveScreen(),
     CompanyScreen(),
     HomeScreen(),
-    TrainingScreen(),
-    SummarizeScreen()
+    SummarizeScreen(),
+    TrainingScreen()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -44,10 +47,10 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-
     return new WillPopScope(
       onWillPop: _onWillPop,
       child: new Scaffold(
+        key: _scaffoldKey,
         body: PageStorage(
           child: currentScreen,
           bucket: bucket,
@@ -68,7 +71,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                     onPressed: () {
                       setState(() {
                         currentScreen =
-                            ReportScreen(); // if user taps on this Home tab will be active
+                            LiveScreen(); // if user taps on this Home tab will be active
                         currentTab = 0;
                       });
                     },
@@ -76,7 +79,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.receipt,
+                          Icons.play_circle_fill_sharp,
                           size: 25,
                           color: currentTab == 0 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
@@ -84,7 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                           height: 2.0,
                         ),
                         Text(
-                          'Report',
+                          'Live',
                           style: TextStyle(
                             color: currentTab == 0 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
@@ -116,7 +119,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                           height: 2.0,
                         ),
                         Text(
-                          'Company',
+                          'Watchlist',
                           style: TextStyle(
                             color: currentTab == 1 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
@@ -158,7 +161,8 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                     minWidth: 0,
                     onPressed: () {
                       setState(() {
-                        currentScreen = TrainingScreen(); // if user taps on this Home tab will be active
+                        currentScreen =
+                            SummarizeScreen(); // if user taps on this Home tab will be active
                         currentTab = 3;
                       });
                     },
@@ -166,7 +170,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.library_books_sharp,
+                          Icons.leaderboard,
                           size: 25,
                           color: currentTab == 3 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
@@ -174,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                           height: 2.0,
                         ),
                         Text(
-                          'Training',
+                          'Summary',
                           style: TextStyle(
                             color: currentTab == 3 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
@@ -188,17 +192,13 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                     padding: EdgeInsets.all(0),
                     minWidth: 0,
                     onPressed: () {
-                      setState(() {
-                        currentScreen =
-                            SummarizeScreen(); // if user taps on this Home tab will be active
-                        currentTab = 4;
-                      });
+                      _scaffoldKey.currentState.openEndDrawer();
                     },
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
                         Icon(
-                          Icons.leaderboard,
+                          Icons.menu,
                           size: 25,
                           color: currentTab == 4 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg,
                         ),
@@ -206,7 +206,7 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                           height: 2.0,
                         ),
                         Text(
-                          'Summarize',
+                          'More',
                           style: TextStyle(
                             color: currentTab == 4 ? Color.fromRGBO(46, 128, 98, 1) : AppColor.bottomNavigationTextNormalModebg, fontSize: 12.0, fontWeight: FontWeight.normal,
                           ),
@@ -214,7 +214,8 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
                       ],
                     ),
                   ),
-                )
+                ),
+
               ],
             ),
           ),
@@ -237,7 +238,13 @@ class _DashboardScreenState extends State<DashboardScreen> with TickerProviderSt
           child: Icon(Icons.home, color: Colors.white, size: 32.0), //icon inside button
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
+        endDrawer: Container(
+          color: Color.fromRGBO(233, 237, 240, 1),
+          width: 280.0,
+          child: Drawer(
+            child: SideBarMenu(),
+          ),
+        ),
       ),
     );
   }

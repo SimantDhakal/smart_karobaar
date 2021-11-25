@@ -1,27 +1,23 @@
-import 'dart:convert';
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:law_dairy/components/rounded_btn/rounded_btn.dart';
 import 'package:law_dairy/resources/AppColor.dart';
 import 'package:law_dairy/resources/api/route_manager.dart';
-import 'package:law_dairy/resources/api/view_storage.dart';
-import 'package:law_dairy/screen/init/register.dart';
-import 'package:law_dairy/screen/module/dashboard_screen.dart';
+import 'package:law_dairy/screen/init/login.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 
-class Login extends StatefulWidget {
+class RegisterScreen extends StatefulWidget {
   @override
-  _LoginState createState() => _LoginState();
+  _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _LoginState extends State<Login> {
-
-  TextEditingController _phoneController = new TextEditingController(text: "9861169270");
-  TextEditingController _passwordController = new TextEditingController(text: "password");
+class _RegisterScreenState extends State<RegisterScreen> {
+  TextEditingController _phoneController = new TextEditingController();
+  TextEditingController _passwordController = new TextEditingController();
+  TextEditingController _confirmPasswordController = new TextEditingController();
 
   bool showSpinner = false;
   String email;
@@ -72,7 +68,7 @@ class _LoginState extends State<Login> {
                                   children: <Widget>[
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(15, 0, 20, 6),
-                                      child: Text('Welcome Back',
+                                      child: Text('Create Account',
                                         style: TextStyle(
                                             color: Colors.grey[300],
                                             fontWeight: FontWeight.w600,
@@ -82,7 +78,7 @@ class _LoginState extends State<Login> {
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.fromLTRB(15, 0, 20, 2),
-                                      child: Text('Please sign in to continue.',
+                                      child: Text('Please sign up to continue.',
                                         style: TextStyle(
                                             color: Colors.grey[400],
                                             fontWeight: FontWeight.w400,
@@ -96,11 +92,12 @@ class _LoginState extends State<Login> {
                           ),
                         ),
                         Container(
+                          padding: EdgeInsets.only(left: 5.0, right: 5.0),
                           child: Column(
                             children: <Widget>[
                               SizedBox(height: 20.0),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                                 child: Container(
                                   margin: EdgeInsets.symmetric(vertical: 10),
                                   child: Column(
@@ -146,7 +143,7 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -189,29 +186,62 @@ class _LoginState extends State<Login> {
                                   ],
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: InkWell(
-                                  onTap: () {
-
-                                  },
-                                  child: Text("Forget Password?", style: TextStyle(color: Color.fromRGBO(64, 178, 135, 1), fontSize: 15.0)),
+                              Container(
+                                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      'Confirm Password',
+                                      style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15, color: Colors.grey[300]),
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    SizedBox(
+                                      height: 55.0,
+                                      child: TextField(
+                                        controller: _confirmPasswordController,
+                                        style: (TextStyle(
+                                            color: Colors.grey[200],
+                                            fontWeight: FontWeight.w400
+                                        )),
+                                        obscureText: true,
+                                        cursorColor: Colors.white,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(color: Colors.grey[600], width: 1),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(color: Color.fromRGBO(64, 178, 135, 1)),
+                                          ),
+                                          fillColor: Color.fromRGBO(51, 55, 62, 0.8),
+                                          filled: true,
+                                          prefixIcon: Icon(Icons.lock_outline, color: Colors.grey[200]),
+                                        ),
+                                        onChanged: (value) {
+                                          password = value;
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
                                   child: RoundedButton(
-                                    btnText: 'LOGIN',
+                                    btnText: 'REGISTER',
                                     color: Color.fromRGBO(64, 178, 135, 1),
                                     onPressed: () {
                                       setState(() {
                                         showSpinner = true;
                                       });
                                       try {
-                                        Navigator.pushAndRemoveUntil(context,
-                                            MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()),
-                                                (route) => false);
+
                                       } catch (e) {
                                         print(e);
                                       }
@@ -219,21 +249,6 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                               ),
-
-                              // Container(
-                              //   height: 50.0,
-                              //   width: double.infinity,
-                              //   child: OutlineButton(
-                              //     padding: EdgeInsets.all(7.0),
-                              //     shape: StadiumBorder(),
-                              //     textColor: Colors.grey[200],
-                              //     child: Text('CREATE ACCOUNT', style: TextStyle(fontSize: 17.0)),
-                              //     borderSide: BorderSide(
-                              //         color: Color.fromRGBO(64, 178, 135, 1), style: BorderStyle.solid,
-                              //         width: 1),
-                              //     onPressed: () {},
-                              //   ),
-                              // ),
 
                               SizedBox(
                                 height: 10,
@@ -249,13 +264,13 @@ class _LoginState extends State<Login> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text("Don\'t have a account,", style: TextStyle(color: Colors.grey[200], fontSize: 16.0, fontWeight: FontWeight.normal)),
+                              Text("Already have an account,", style: TextStyle(color: Colors.grey[200], fontSize: 16.0)),
                               SizedBox(width: 10.0),
                               InkWell(
                                 onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
                                 },
-                                child: Text("Sign Up", style: TextStyle(color: Color.fromRGBO(64, 178, 135, 1), fontSize: 17.0, fontWeight: FontWeight.normal)),
+                                child: Text("Sign In", style: TextStyle(color: Color.fromRGBO(64, 178, 135, 1), fontSize: 17.0, fontWeight: FontWeight.normal)),
                               ),
                             ],
                           ),
@@ -294,9 +309,6 @@ class _LoginState extends State<Login> {
     final responseData = response.data;
 
     log(responseData.toString());
-    ViewStorage.logInfo.add(responseData);
-    print(ViewStorage.logInfo[0].toString());
-
     if (response.statusCode == 200) {
       setState(() {showSpinner = false;});
       Fluttertoast.showToast(
@@ -308,9 +320,6 @@ class _LoginState extends State<Login> {
           textColor: Colors.white,
           fontSize: 16.0
       );
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (BuildContext context) => DashboardScreen()),
-              (route) => false);
     } else {
 
       setState(() {
